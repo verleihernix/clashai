@@ -81,8 +81,10 @@ export type GPTModels =
 | "gpt-4o-mini-2024-07-18";
 
 /**
- * A class for interacting with the ClashAI API using GPT models.
+ * A class for interacting with the ClashAI API GPT models.
  * @class
+ * @example
+ * const gpt = new GPT("your clash ai api key", "chatgpt-4o-latest");
  */
 export class GPT
 {
@@ -123,13 +125,13 @@ export class GPT
     /**
      * Gets the conversation history for a user.
      * @param {string} user_id - The unique identifier for the user.
-     * @returns {Array<{ role: string, content: string }> | undefined}
+     * @returns {Array<{ role: Role, content: string }> | undefined}
      * @private
      * @function
      */
     #get_user_history(
         user_id: string
-    ): Array<{ role: string, content: string }> | undefined {
+    ): Array<{ role: Role, content: string }> | undefined {
         if (!this.#user_histories.has(user_id)) {
             this.#user_histories.set(user_id, []);
         }
@@ -191,6 +193,9 @@ export class GPT
                     "Content-Type": "application/json",
                 }
             });
+
+            const assistant_message = response.data.choices[0].message.content;
+            user_history?.push({ role: "assistant", content: assistant_message }); // Chat history (Adds the assistant message to the chat/user history)
 
             return response.data;
         } catch (error) {
