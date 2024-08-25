@@ -6,6 +6,24 @@
  */
 export type Role = "user" | "system" | "assistant";
 /**
+ * Represents the structure of the messages in the conversation.
+ * - `role`: The role of the message sender.
+ * - `content`: The content of the message.
+ */
+export type Messages = {
+    /**
+     * The role of the message sender.
+     * - "user": The person interacting with the model.
+     * - "system": The system or administrative messages. (with this you can set the personality of the model)
+     * - "assistant": The model itself.
+     */
+    role: Role;
+    /**
+     * The content of the message.
+     */
+    content: string;
+};
+/**
  * Represents the structure of the GPT response from the API.
  */
 export type GPTResponse = {
@@ -65,12 +83,9 @@ export declare class GPT {
     #private;
     /**
      * Returns the user histories map.
-     * @returns {Map<string, Array<{ role: Role, content: string }>>}
+     * @returns {Map<string, Array<Messages>>}
      */
-    get user_histories(): Map<string, Array<{
-        role: Role;
-        content: string;
-    }>>;
+    get user_histories(): Map<string, Array<Messages>>;
     /**
      * Creates a new instance of the GPT class.
      * @param {string} api_key - Your {@link https://discord.gg/t72xtYb6aT ClashAI} API key
@@ -87,12 +102,9 @@ export declare class GPT {
     /**
      * Asks the model a question and returns the response.
      * @param {string} message - The message to send to the model (question).
-     * @param {Array<{ role: Role, content: string }> = []} messages - Here you can set the roles of the model and user.
+     * @param {Array<Messages> = []} messages - Here you can set the roles of the model and user.
      * @param {string} user_id - The unique identifier for the user.
      * @returns {Promise<GPTResponse> | undefined} - The response from the model. `Undefined` if an error occurs.
      */
-    ask(message: string, messages?: Array<{
-        role: Role;
-        content: string;
-    }>, user_id?: string): Promise<GPTResponse | undefined>;
+    ask(message: string, messages?: Array<Messages>, user_id?: string): Promise<GPTResponse | undefined>;
 }
