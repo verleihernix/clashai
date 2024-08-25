@@ -9,6 +9,25 @@ import * as crypto from "crypto";
  */
 export type Role = "user" | "system" | "assistant";
 
+/**
+ * Represents the structure of the messages in the conversation.
+ * - `role`: The role of the message sender.
+ * - `content`: The content of the message.
+ */
+export type Messages = {
+    /**
+     * The role of the message sender.
+     * - "user": The person interacting with the model.
+     * - "system": The system or administrative messages. (with this you can set the personality of the model)
+     * - "assistant": The model itself.
+     */
+    role: Role;
+    /**
+     * The content of the message.
+     */
+    content: string;
+}
+
 /** 
  * Represents the structure of the GPT response from the API.
  */
@@ -110,28 +129,28 @@ export class GPT
     /**
      * A map of user IDs to their conversation history.
      * @private
-     * @type {Map<string, Array<{ role: Role, content: string }>>}
+     * @type {Map<string, Array<Messages>>}
      */
-    #user_histories: Map<string, Array<{ role: Role, content: string }>> = new Map();
+    #user_histories: Map<string, Array<Messages>> = new Map();
 
     /**
      * Returns the user histories map.
-     * @returns {Map<string, Array<{ role: Role, content: string }>>}
+     * @returns {Map<string, Array<Messages>>}
      */
-    public get user_histories(): Map<string, Array<{ role: Role, content: string }>> {
+    public get user_histories(): Map<string, Array<Messages>> {
         return this.#user_histories;
     }
 
     /**
      * Gets the conversation history for a user.
      * @param {string} user_id - The unique identifier for the user.
-     * @returns {Array<{ role: Role, content: string }> | undefined}
+     * @returns {Array<Messages> | undefined}
      * @private
      * @function
      */
     #get_user_history(
         user_id: string
-    ): Array<{ role: Role, content: string }> | undefined {
+    ): Array<Messages> | undefined {
         if (!this.#user_histories.has(user_id)) {
             this.#user_histories.set(user_id, []);
         }
@@ -166,13 +185,13 @@ export class GPT
     /**
      * Asks the model a question and returns the response.
      * @param {string} message - The message to send to the model (question).
-     * @param {Array<{ role: Role, content: string }> = []} messages - Here you can set the roles of the model and user. 
+     * @param {Array<Messages> = []} messages - Here you can set the roles of the model and user. 
      * @param {string} user_id - The unique identifier for the user.
      * @returns {Promise<GPTResponse> | undefined} - The response from the model. `Undefined` if an error occurs.
      */
     public async ask(
         message: string,
-        messages: Array<{ role: Role, content: string }> = [],
+        messages: Array<Messages> = [],
         user_id?: string,
     ): Promise<GPTResponse | undefined> {
         if (!user_id) {
