@@ -56,8 +56,10 @@ export type GPTResponse = {
  */
 export type GPTModels = "gpt-4o" | "chatgpt-4o-latest" | "gpt-4-turbo" | "gpt-4o-2024-08-06" | "gpt-4o-mini" | "gpt-4" | "gpt-4o-2024-05-13" | "gpt-4o-mini-2024-07-18";
 /**
- * A class for interacting with the ClashAI API using GPT models.
+ * A class for interacting with the ClashAI API GPT models.
  * @class
+ * @example
+ * const gpt = new GPT("your clash ai api key", "chatgpt-4o-latest");
  */
 export declare class GPT {
     #private;
