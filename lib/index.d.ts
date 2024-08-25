@@ -101,10 +101,9 @@ export declare class GPT {
     constructor(api_key: string, model: GPTModels);
     /**
      * Asks the model a question and returns the response.
-     * @param {string} message - The message to send to the model (question).
-     * @param {Array<Messages> = []} messages - Here you can set the roles of the model and user.
+     * @param {Array<Messages> = []} messages - OpenAI Format to modify the personality of the model, the question and other things.
      * @param {string} user_id - The unique identifier for the user.
      * @returns {Promise<GPTResponse> | undefined} - The response from the model. `Undefined` if an error occurs.
      */
-    ask(message: string, messages?: Array<Messages>, user_id?: string): Promise<GPTResponse | undefined>;
+    ask(messages?: Array<Messages>, user_id?: string): Promise<GPTResponse | undefined>;
 }
