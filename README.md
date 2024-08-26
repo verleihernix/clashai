@@ -9,8 +9,8 @@ npm install clashai
 ## Usage
 ### TypeScript
 ```ts
-import Wrapper from 'clashai';
-const client = new Wrapper('your-api-key', 'gpt-4o');
+import Client from 'clashai';
+const client = new Client('your-api-key', 'gpt-4o');
 client.on("error", err => {
     console.log(err.message);
 });
@@ -24,8 +24,8 @@ client.on("requestMade", info => {
 ```
 ### JavaScript
 ```js
-const Wrapper = require('clashai');
-const client = new Wrapper('your-api-key', 'gpt-4o');
+const Client = require('clashai');
+const client = new Client('your-api-key', 'gpt-4o');
 client.on("error", err => {
     console.log(err.message);
 });
