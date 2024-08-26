@@ -206,6 +206,7 @@ export type Models =
 /**
  * A class for interacting with the ClashAI API.
  * @class
+ * @default
  * @example
  * const gpt = new Wrapper("your clash ai api key", "chatgpt-4o-latest");
  */
