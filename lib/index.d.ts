@@ -158,7 +158,7 @@ export type Models = "gpt-4o" | "chatgpt-4o-latest" | "gpt-4-turbo" | "gpt-4o-20
  * @example
  * const gpt = new Wrapper("your clash ai api key", "chatgpt-4o-latest");
  */
-export declare class Wrapper extends EventEmitter {
+export default class Wrapper extends EventEmitter {
     #private;
     /**
      * Returns the user histories map.

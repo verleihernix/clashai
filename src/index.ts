@@ -209,7 +209,7 @@ export type Models =
  * @example
  * const gpt = new Wrapper("your clash ai api key", "chatgpt-4o-latest");
  */
-export class Wrapper extends EventEmitter
+export default class Wrapper extends EventEmitter
 {
     /**
      * The API key used to authenticate with the ClashAI API.
