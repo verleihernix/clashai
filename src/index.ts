@@ -15,11 +15,11 @@ export type RequestMadeInfoParams = {
 }
 
 /**
- * Represents events that can be emitted by the `Wrapper` class.
+ * Represents events that can be emitted by the `Client` class.
  * - `error`: Emitted when an error occurs.
  * - `requestMade`: Emitted when a request is made to a model.
  */
-export type WrapperEvents = {
+export type ClientEvents = {
     /**
      * Emitted when an error occurs.
      * @param {Error} error - The error that occurred. 
@@ -208,9 +208,9 @@ export type Models =
  * @class
  * @default
  * @example
- * const gpt = new Wrapper("your clash ai api key", "chatgpt-4o-latest");
+ * const gpt = new Client("your clash ai api key", "chatgpt-4o-latest");
  */
-export default class Wrapper extends EventEmitter
+export default class Client extends EventEmitter
 {
     /**
      * The API key used to authenticate with the ClashAI API.
@@ -264,52 +264,52 @@ export default class Wrapper extends EventEmitter
 
     /**
      * @param {K} event - The event to listen for.
-     * @param {WrapperEvents[K]} listener - The listener to call when the event is emitted. 
+     * @param {ClientEvents[K]} listener - The listener to call when the event is emitted. 
      * @template K - The type of event to listen for.
      * @returns {this}
      */
-    public override on<K extends keyof WrapperEvents>(
+    public override on<K extends keyof ClientEvents>(
         event: K,
-        listener: WrapperEvents[K]
+        listener: ClientEvents[K]
     ): this {
         return super.on(event, listener);
     }
 
     /**
      * @param {K} event - The event to listen for.
-     * @param {WrapperEvents[K]} listener - The listener to call when the event is emitted.
+     * @param {ClientEvents[K]} listener - The listener to call when the event is emitted.
      * @template K - The type of event to listen for.
      * @returns {this}
      */
-    public override once<K extends keyof WrapperEvents>(
+    public override once<K extends keyof ClientEvents>(
         event: K,
-        listener: WrapperEvents[K]
+        listener: ClientEvents[K]
     ): this {
         return super.once(event, listener);
     }
 
     /**
      * @param {K} event - The event to emit. 
-     * @param {Parameters<WrapperEvents[K]>} args - The arguments to pass to the event listener. 
+     * @param {Parameters<ClientEvents[K]>} args - The arguments to pass to the event listener. 
      * @template K - The type of event to emit.
      * @returns {boolean}
      */
-    public override emit<K extends keyof WrapperEvents>(
+    public override emit<K extends keyof ClientEvents>(
         event: K,
-        ...args: Parameters<WrapperEvents[K]>
+        ...args: Parameters<ClientEvents[K]>
     ): boolean {
         return super.emit(event, ...args);
     }
 
     /**
-     * Creates a new instance of the Wrapper class.
+     * Creates a new `Client`.
      * @param {string} api_key - Your {@link https://discord.gg/t72xtYb6aT ClashAI} API key 
      * @param {Models} model - The model to use for generating completions.
      * @constructor
      * @example
-     * const gpt = new Wrapper("your clash ai api key", "chatgpt-4o-latest");
+     * const gpt = new Client("your clash ai api key", "chatgpt-4o-latest");
      * (async () => {
-     *    const response = await gpt.ask("Hello, how are you?", [{ role: "system", content: "You are a friendly chatbot." }]);
+     *    const response = await gpt.makeRequest("Hello, how are you?", [{ role: "system", content: "You are a friendly chatbot." }]);
      *    console.log(response.choices[0].message.content);
      * })();
      */
@@ -332,6 +332,9 @@ export default class Wrapper extends EventEmitter
      * @param {Array<Messages>} messages - Format to modify the personality of the model, the question and other things. 
      * @param {string} user_id - The unique identifier for the user.
      * @returns {Promise<Response> | null} - The response from the model. `Null` if an error occurs.
+     * @example
+     * const client = new Client("your clash ai api key", "chatg
+     * const response = await client.makeRequest([{ role: "system", content: "You are a friendly chatbot." }, { role: "user", content: "Hello, how are you?" }]);
      */
     public async makeRequest(
         messages: Array<Messages> = [],
@@ -371,8 +374,8 @@ export default class Wrapper extends EventEmitter
      * @param {string} user_id - The unique identifier for the user. 
      * @returns {Promise<StatsResultResponse> | null} - The statistics of the user. `Null` if an error occurs.
      * @example
-     * const wrapper = new Wrapper("your clash ai api key", "chatgpt-4o-latest");
-     * const stats = await wrapper.getUsage("your user id");
+     * const client = new Client("your clash ai api key", "chatgpt-4o-latest");
+     * const stats = await client.getUsage("your user id");
      */
     public async getUsage(
         user_id: string
