@@ -301,6 +301,26 @@ export default class Client extends EventEmitter
     }
 
     /**
+     * @param {K} eventName - The event to listen for.
+     * @param {ClientEvents[K]} listener - The callback function.
+     * @template K - The type of event to listen for.
+     * @returns 
+     */
+    public override prependListener<K extends keyof ClientEvents>(eventName: K, listener: ClientEvents[K]): this {
+        return super.prependListener(eventName, listener);
+    }
+
+    /**
+     * @param {K} eventName - The event to listen for.
+     * @param {ClientEvents[K]} listener - The callback function.
+     * @template K - The type of event to listen for.
+     * @returns 
+     */
+    public override prependOnceListener<K extends keyof ClientEvents>(eventName: K, listener: ClientEvents[K]): this {
+        return super.prependOnceListener(eventName, listener);
+    }
+
+    /**
      * Creates a new `Client`.
      * @param {string} api_key - Your {@link https://discord.gg/t72xtYb6aT ClashAI} API key 
      * @param {Models} model - The model to use for generating completions.
