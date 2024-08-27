@@ -332,7 +332,7 @@ export default class Client extends EventEmitter
      * @param {string} user_id - The unique identifier for the user.
      * @returns {Promise<Response> | null} - The response from the model. `Null` if an error occurs.
      * @example
-     * const client = new Client("your clash ai api key", "chatg
+     * const client = new Client("your clash ai api key", "gpt-4o");
      * const response = await client.makeRequest([{ role: "system", content: "You are a friendly chatbot." }, { role: "user", content: "Hello, how are you?" }]);
      */
     public async makeRequest(
