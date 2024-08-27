@@ -206,7 +206,6 @@ export type Models =
 /**
  * A class for interacting with the ClashAI API.
  * @class
- * @default
  * @example
  * const gpt = new Client("your clash ai api key", "chatgpt-4o-latest");
  */
