@@ -158,7 +158,7 @@ export type Models = "gpt-4o" | "chatgpt-4o-latest" | "gpt-4-turbo" | "gpt-4o-20
  * @example
  * const gpt = new Client("your clash ai api key", "chatgpt-4o-latest");
  */
-export default class Client extends EventEmitter {
+export declare class Client extends EventEmitter {
     #private;
     /**
      * Returns the user histories map.

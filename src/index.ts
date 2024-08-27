@@ -209,7 +209,7 @@ export type Models =
  * @example
  * const gpt = new Client("your clash ai api key", "chatgpt-4o-latest");
  */
-export default class Client extends EventEmitter
+export class Client extends EventEmitter
 {
     /**
      * The API key used to authenticate with the ClashAI API.
