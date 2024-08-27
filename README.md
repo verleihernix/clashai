@@ -3,13 +3,13 @@
 
 ## Installation
 ```bash
-npm install clashai
+npm install clashai.js
 ```
 
 ## Usage
 ### TypeScript
 ```ts
-import Client from 'clashai';
+import Client from 'clashai.js';
 const client = new Client('your-api-key', 'gpt-4o');
 client.on("error", err => {
     console.log(err.message);
@@ -24,7 +24,7 @@ client.on("requestMade", info => {
 ```
 ### JavaScript
 ```js
-const Client = require('clashai');
+const Client = require('clashai.js');
 const client = new Client('your-api-key', 'gpt-4o');
 client.on("error", err => {
     console.log(err.message);
