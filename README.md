@@ -1,12 +1,12 @@
 # ClashAI API Wrapper
 > An easy-to-use Api Wrapper for the [ClashAI](https://discord.gg/t72xtYb6aT) API.
 
+> You can access the documentation [**here**](https://clashai-js.gitbook.io/docs)
+
 ## Installation
 ```bash
 npm install clashai.js
 ```
-
-> You can access the documentation [**here**](https://clashai-js.gitbook.io/docs)
 
 ## Usage
 ### TypeScript
