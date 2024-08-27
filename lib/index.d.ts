@@ -201,6 +201,18 @@ export default class Client extends EventEmitter {
      */
     prependOnceListener<K extends keyof ClientEvents>(eventName: K, listener: ClientEvents[K]): this;
     /**
+     * @param {K} event - The event to count the listeners for.
+     * @template K - The type of the event
+     * @returns {number} - The number of listeners for the event.
+     */
+    listenerCount<K extends keyof ClientEvents>(event: K): number;
+    /**
+     * @param {K} event - The event to copy the listeners from.
+     * @template K - The type of the event
+     * @returns {Function[]} - The listeners for the event.
+     */
+    listeners<K extends keyof ClientEvents>(eventName: K): Function[];
+    /**
      * Creates a new `Client`.
      * @param {string} api_key - Your {@link https://discord.gg/t72xtYb6aT ClashAI} API key
      * @param {Models} model - The model to use for generating completions.
