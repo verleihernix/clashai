@@ -11,8 +11,8 @@ npm install clashai.js
 ## Usage
 ### TypeScript
 ```ts
-import Client from 'clashai.js';
-const client = new Client('your-api-key', 'gpt-4o');
+import ClashAI from 'clashai.js'; // import { Client } from 'clashai.js';
+const client = new ClashAI.Client('your-api-key', 'gpt-4o');
 client.on("error", err => {
     console.log(err.message);
 });
@@ -26,8 +26,8 @@ client.on("requestMade", info => {
 ```
 ### JavaScript
 ```js
-const Client = require('clashai.js');
-const client = new Client('your-api-key', 'gpt-4o');
+const ClashAI = require('clashai.js'); // const { Client } = require('clashai.js');
+const client = new ClashAI.Client('your-api-key', 'gpt-4o');
 client.on("error", err => {
     console.log(err.message);
 });
