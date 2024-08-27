@@ -6,6 +6,8 @@
 npm install clashai.js
 ```
 
+> You can access the documentation [**here**](https://clashai-js.gitbook.io/docs)
+
 ## Usage
 ### TypeScript
 ```ts
