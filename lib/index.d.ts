@@ -1,5 +1,120 @@
 /// <reference types="node" />
 import EventEmitter from "events";
+/**
+ * Utility functions for working with arrays, objects, and other data structures.
+ */
+export declare namespace Utils {
+    /**
+ * Returns an iterator that yields pairs of indices and values from an unsorted array.
+ * @param {T[]} arr - The array to iterate over.
+ * @template T - The type of the array elements.
+ * @returns {IterableIterator<[number, T]>} An iterator that yields pairs of indices and values.
+ * @example
+ * const arr = ['a', 'b', 'c'];
+ * for (const [i, val] of pairs(arr)) {
+ *    console.log(i, val); // i = index, val = value (val is from type string)
+ * }
+ */
+    function pairs<T>(arr: T[]): IterableIterator<[number, T]>;
+    /**
+     * Returns an iterator that yields pairs of indices and values from a sorted array.
+     * @param {T[]} arr - The array to iterate over.
+     * @template T - The type of the array elements.
+     * @returns {IterableIterator<[number, T]>} An iterator that yields pairs of indices and values.
+     * @example
+     * const unsortedArr = ['c', 'a', 'b'];
+     * for (const [i, val] of ipairs(unsortedArr)) {
+     *   console.log(i, val); // [0, 'a'], [1, 'b'], [2, 'c']
+     * }
+     */
+    function ipairs<T>(arr: T[]): IterableIterator<[number, T]>;
+    /**
+     * Splits an array into chunks of a specified size.
+     * @param {T[]} arr - The array to split.
+     * @param {number} size - The size of each chunk.
+     * @template T - The type of the array elements.
+     * @returns {T[][]} An array of chunks.
+     * @example
+     * const arr = [1, 2, 3, 4, 5];
+     * const chunks = chunk(arr, 2);
+     * console.log(chunks); // [[1, 2], [3, 4], [5]]
+     */
+    function chunk<T>(arr: T[], size: number): T[][];
+    /**
+     * Flattens a nested array by one level.
+     * @param {T[][]} arr - The array to flatten.
+     * @template T - The type of the array elements.
+     * @returns {T[]} A flattened array.
+     * @example
+     * const arr = [[1, 2], [3, 4], [5]];
+     * const flattened = flatten(arr);
+     * console.log(flattened); // [1, 2, 3, 4, 5]
+     */
+    function flatten<T>(arr: T[][]): T[];
+    /**
+     * Returns a new array with only unique values from the original array.
+     * @param {T[]} arr - The array to filter.
+     * @template T - The type of the array elements.
+     * @returns {T[]} An array with only unique values.
+     * @example
+     * const arr = [1, 2, 2, 3, 4, 4, 5];
+     * const uniqueArr = unique(arr);
+     * console.log(uniqueArr); // [1, 2, 3, 4, 5]
+     */
+    function unique<T>(arr: T[]): T[];
+    /**
+     * Groups the elements of an array based on a givem creiteria function.
+     * @param {T[]} arr - The array to group.
+     * @param {(item: T) => K} keyFn - The function that returns the key to group by.
+     * @template T - The type of the array elements.
+     * @template K - The type of the key.
+     * @returns {Record<K, T[]>} An object with keys as the result of the key function and values as the grouped elements.
+     * @example
+     * const grouped = groupBy(['one', 'two', 'three'], str => str.length); // group by the length of the strings
+     * // {3: ['one', 'two'], 5: ['three']} (one and two have 3 characters, three has 5 characters)
+     */
+    function groupBy<T, K extends keyof any>(arr: T[], keyFn: (item: T) => K): Record<K, T[]>;
+    /**
+     * Debounces a function, delaying its execution until after a specified delay has passed since it was last invoked.
+     * @param {Function} func - The function to debounce.
+     * @param {number} delay - The delay in milliseconds.
+     * @returns {Function} - A debounced version of the oiiginal function.
+     * @example
+     * const debounced = debounce(() => console.log('Hello'), 5000);
+     * debounced(); // Hello is logged after 5 seconds
+     */
+    function debounce(func: Function, delay: number): (...args: any[]) => void;
+    /**
+     * Returns a random integer between min (inclusive) and max (inclusive).
+     * @param {number} min The minimum value.
+     * @param {number} max The maximum value.
+     * @returns {number} A random integer within the specified range.
+     * @example
+     * const rand = randomInt(1, 10); // Random integer between 1 and 10
+     */
+    function randomInt(min: number, max: number): number;
+    /**
+     * Ensures a function is only executed once.
+     * @param {Function} func The function to execute only once.
+     * @returns {Function} A function that will only execute the original function once.
+     * @example
+     * const initialize = once(() => console.log('Initialized!'));
+     * initialize(); // 'Initialized!'
+     * initialize(); // (No output)
+     */
+    function once(func: Function): () => any;
+    /**
+     * Throttles a function so it can only be invoked once per specified time period.
+     * @param {Function} func The function to throttle.
+     * @param {number} limit The time period in milliseconds.
+     * @returns {Function} A throttled version of the original function.
+     * @example
+     * const throttled = throttle(() => console.log('Throttled!'), 1000);
+     * throttled(); // 'Throttled!' (invoked immediately)
+     * throttled(); // (No output) (invoked after 1 second)
+     */
+    function throttle(func: Function, limit: number): (...args: any[]) => void;
+}
 export type RequestMadeInfoParams = {
     /**
      * The id of the user that made the request.

@@ -2,6 +2,216 @@ import * as axios from "axios";
 import * as crypto from "crypto";
 import EventEmitter from "events";
 
+/**
+ * Utility functions for working with arrays, objects, and other data structures.
+ */
+export namespace Utils {
+    /**
+ * Returns an iterator that yields pairs of indices and values from an unsorted array.
+ * @param {T[]} arr - The array to iterate over.
+ * @template T - The type of the array elements.
+ * @returns {IterableIterator<[number, T]>} An iterator that yields pairs of indices and values.
+ * @example
+ * const arr = ['a', 'b', 'c'];
+ * for (const [i, val] of pairs(arr)) {
+ *    console.log(i, val); // i = index, val = value (val is from type string)
+ * } 
+ */
+export function* pairs<T>(
+    arr: T[]
+): IterableIterator<[number, T]> {
+    for (let i = 0; i < arr.length; i++) {
+        yield [i, arr[i]];
+    }
+}
+
+/**
+ * Returns an iterator that yields pairs of indices and values from a sorted array.
+ * @param {T[]} arr - The array to iterate over.
+ * @template T - The type of the array elements.
+ * @returns {IterableIterator<[number, T]>} An iterator that yields pairs of indices and values.
+ * @example
+ * const unsortedArr = ['c', 'a', 'b'];
+ * for (const [i, val] of ipairs(unsortedArr)) {
+ *   console.log(i, val); // [0, 'a'], [1, 'b'], [2, 'c']
+ * } 
+ */
+export function* ipairs<T>(
+    arr: T[]
+): IterableIterator<[number, T]> {
+    const indexedArray = arr.map((val, index) => [index, val] as [number, T]); // create an array of pairs of indices and values
+    indexedArray.sort((a, b) => (a[1] > b[1] ? 1 : -1)); // sort by value
+
+    for (const [index, value] of indexedArray) {
+        yield [index, value];
+    }
+}
+
+/**
+ * Splits an array into chunks of a specified size.
+ * @param {T[]} arr - The array to split. 
+ * @param {number} size - The size of each chunk.
+ * @template T - The type of the array elements. 
+ * @returns {T[][]} An array of chunks.
+ * @example
+ * const arr = [1, 2, 3, 4, 5];
+ * const chunks = chunk(arr, 2);
+ * console.log(chunks); // [[1, 2], [3, 4], [5]]
+ */
+export function chunk<T>(
+    arr: T[],
+    size: number
+): T[][] {
+    const result: T[][] = [];
+    for (let i = 0; i < arr.length; i += size) {
+        result.push(arr.slice(i, i + size));
+    }
+    return result;
+}
+
+/**
+ * Flattens a nested array by one level.
+ * @param {T[][]} arr - The array to flatten.
+ * @template T - The type of the array elements. 
+ * @returns {T[]} A flattened array.
+ * @example
+ * const arr = [[1, 2], [3, 4], [5]];
+ * const flattened = flatten(arr);
+ * console.log(flattened); // [1, 2, 3, 4, 5]
+ */
+export function flatten<T>(
+    arr: T[][]
+): T[] {
+    return arr.reduce((acc, val) => acc.concat(val), []);
+}
+
+/**
+ * Returns a new array with only unique values from the original array.
+ * @param {T[]} arr - The array to filter.
+ * @template T - The type of the array elements. 
+ * @returns {T[]} An array with only unique values.
+ * @example
+ * const arr = [1, 2, 2, 3, 4, 4, 5];
+ * const uniqueArr = unique(arr);
+ * console.log(uniqueArr); // [1, 2, 3, 4, 5]
+ */
+export function unique<T>(
+    arr: T[]
+): T[] {
+    return Array.from(new Set(arr));
+}
+
+/**
+ * Groups the elements of an array based on a givem creiteria function.
+ * @param {T[]} arr - The array to group. 
+ * @param {(item: T) => K} keyFn - The function that returns the key to group by.
+ * @template T - The type of the array elements.
+ * @template K - The type of the key. 
+ * @returns {Record<K, T[]>} An object with keys as the result of the key function and values as the grouped elements.
+ * @example
+ * const grouped = groupBy(['one', 'two', 'three'], str => str.length); // group by the length of the strings
+ * // {3: ['one', 'two'], 5: ['three']} (one and two have 3 characters, three has 5 characters)
+ */
+export function groupBy<T, K extends keyof any>(
+    arr: T[], 
+    keyFn: (item: T) => K
+): Record<K, T[]> {
+    return arr.reduce((acc, item) => {
+        const key = keyFn(item);
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(item);
+        return acc;
+    }, {} as Record<K, T[]>);
+}
+
+/**
+ * Debounces a function, delaying its execution until after a specified delay has passed since it was last invoked.
+ * @param {Function} func - The function to debounce.
+ * @param {number} delay - The delay in milliseconds.
+ * @returns {Function} - A debounced version of the oiiginal function.
+ * @example
+ * const debounced = debounce(() => console.log('Hello'), 5000);
+ * debounced(); // Hello is logged after 5 seconds
+ */
+export function debounce(
+    func: Function,
+    delay: number
+): (...args: any[]) => void {
+    let timeoutId: number | NodeJS.Timeout;
+    return function (...args: any[]) {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    }
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * @param {number} min The minimum value.
+ * @param {number} max The maximum value.
+ * @returns {number} A random integer within the specified range.
+ * @example
+ * const rand = randomInt(1, 10); // Random integer between 1 and 10
+ */
+export function randomInt(
+    min: number,
+    max: number
+): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Ensures a function is only executed once.
+ * @param {Function} func The function to execute only once.
+ * @returns {Function} A function that will only execute the original function once.
+ * @example
+ * const initialize = once(() => console.log('Initialized!'));
+ * initialize(); // 'Initialized!'
+ * initialize(); // (No output)
+ */
+export function once(
+    func: Function
+): () => any {
+    let hasRun: boolean = false;
+    let result: any;
+    return function (...args: any[]) {
+        if (!hasRun) {
+            result = func(...args);
+            hasRun = true;
+        }
+        return result;
+    }
+}
+
+/**
+ * Throttles a function so it can only be invoked once per specified time period.
+ * @param {Function} func The function to throttle.
+ * @param {number} limit The time period in milliseconds.
+ * @returns {Function} A throttled version of the original function.
+ * @example
+ * const throttled = throttle(() => console.log('Throttled!'), 1000);
+ * throttled(); // 'Throttled!' (invoked immediately)
+ * throttled(); // (No output) (invoked after 1 second)
+ */
+export function throttle(
+    func: Function, 
+    limit: number
+): (...args: any[]) => void {
+    let inThrottle: boolean;
+    return function (...args: any[]) {
+        if (!inThrottle) {
+            func(...args);
+            inThrottle = true;
+            setTimeout(() => (inThrottle = false), limit);
+        }
+    };
+}
+}
 
 export type RequestMadeInfoParams = {
     /**
